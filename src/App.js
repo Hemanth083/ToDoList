@@ -1,23 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
-
+import AddTask from './AddTask';
+import { useEffect, useState } from 'react';
+import ToDo from './ToDo';
 function App() {
+  const [taskList, setTaskList] = useState([])
+  useEffect(() => {
+    let array = localStorage.getItem("taskList");
+    if (array) {
+      setTaskList(JSON.parse(array))
+    }
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='MainPage'>
+      <h1>Task-Tracker</h1>
+      <AddTask taskList={taskList} setTaskList={setTaskList} />
+      <div className='section'>
+        <h1>ToDo</h1>
+        <h1>ZXY</h1>
+      </div>
+
+      {taskList.map((task, i) =>
+        <div className='section'>
+          <ToDo task={task} key={i} index={i} taskList={taskList}
+            setTaskList={setTaskList} />
+          <ToDo task={task} key={i} />
+        </div>
+
+      )}
     </div>
   );
 }
